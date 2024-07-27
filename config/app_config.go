@@ -8,11 +8,12 @@ package config
 import "go.uber.org/zap/zapcore"
 
 type AppConfig struct {
-	LogLevel zapcore.Level  `mapstructure:"logLevel"` // 是否开启调试模式
-	Language string         `mapstructure:"language"` // 应用语言
-	Server   ServerConfig   `mapstructure:"server"`   // 服务器配置
-	Database DatabaseConfig `mapstructure:"database"` // 数据库配置
-	Redis    RedisConfig    `mapstructure:"redis"`    // redis配置
+	LogLevel        zapcore.Level   `mapstructure:"logLevel"` // 是否开启调试模式
+	Language        string          `mapstructure:"language"` // 应用语言
+	Server          ServerConfig    `mapstructure:"server"`   // 服务器配置
+	Database        DatabaseConfig  `mapstructure:"database"` // 数据库配置
+	Redis           RedisConfig     `mapstructure:"redis"`    // redis配置
+	FreeCacheConfig FreeCacheConfig `mapstructure:"freesize"`
 }
 
 // ServerConfig 和 DatabaseConfig 也是结构体，分别定义服务器和数据库的相关配置
@@ -35,4 +36,8 @@ type RedisConfig struct {
 	Port     int    `mapstructure:"port"`
 	DB       int    `mapstructure:"db"`
 	Password string `mapstructure:"password"`
+}
+
+type FreeCacheConfig struct {
+	Size int `mapstructure:"size"`
 }

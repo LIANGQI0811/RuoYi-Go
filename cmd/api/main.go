@@ -7,8 +7,9 @@ package main
 
 import (
 	"RuoYi-Go/di"
-	"RuoYi-Go/internal/shutdown"
+	"RuoYi-Go/internal/adapters/persistence"
 	"RuoYi-Go/pkg/config"
+	"fmt"
 	"os"
 )
 
@@ -16,21 +17,24 @@ func main() {
 	// 加载配置
 	cfg, err := config.LoadConfig()
 	if err != nil {
+		fmt.Println(err)
 		os.Exit(2)
 	}
 
 	// 创建依赖注入容器
-	container, err := di.NewContainer(cfg)
-	if err != nil {
-		os.Exit(2)
-	}
-	defer container.Close()
-
-	// 系统关闭
-	shutdown.NewHook().Close(
-		func() {
-			container.Close()
-			os.Exit(0)
-		},
-	)
+	app, err := di.NewSuperContainer(cfg)
+	app.PutBeanByType(persistence.SysUserRepository{})
+	fmt.Println(app)
+	//if err != nil {
+	//	os.Exit(2)
+	//}
+	//defer container.Close()
+	//
+	//// 系统关闭
+	//shutdown.NewHook().Close(
+	//	func() {
+	//		container.Close()
+	//		os.Exit(0)
+	//	},
+	//)
 }

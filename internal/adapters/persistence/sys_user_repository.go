@@ -19,6 +19,10 @@ type SysUserRepository struct {
 	db *dao.DatabaseStruct
 }
 
+func (this *SysUserRepository) SetDb(db *dao.DatabaseStruct) {
+	this.db = db
+}
+
 func NewSysUserRepository(db *dao.DatabaseStruct) *SysUserRepository {
 	return &SysUserRepository{db: db}
 }
